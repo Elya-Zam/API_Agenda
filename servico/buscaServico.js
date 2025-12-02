@@ -15,11 +15,3 @@ export async function buscarTodosContatos() {
     conexao.release();
     return resultado;
 }
-
-// export async function buscarContatoPorNome(nome) {
-//     const conexao = await pool.getConnection()
-//     const sql = 'SELCT * FROM contato WHERE = ?';
-//     const [resultado] = await conexao.exectute(sql, [nome]);
-//     conexao.release();
-//     return resultado;
-// }

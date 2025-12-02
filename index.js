@@ -1,9 +1,26 @@
 import express from "express";
 import { buscaContatoPorId, buscarTodosContatos } from "./servico/buscaServico.js";
 import { deletaContato } from "./servico/deletaServico.js";
+import { validacontato } from "./validacao/valida.js";
+import { cadastraContato } from "./servico/cadastroServico.js";
 
 const app = new express();
+app.use(express.json())
 const port = 8888;
+
+app.post('/contatos', async (req, res) => {
+    const nome = req.body.nome;
+    const telefone = req.body.telefone;
+    const email = req.body.email;
+
+    const contatoValido = validacontato(nome, telefone, email)
+    if (contatoValido.status) {
+        await cadastraContato(nome, telefone, email);
+        res.status(204).end();
+    } else {
+        res.status(400).json({mensagem: contatoValido.mensagem})
+    }
+})
 
 app.get('/contatos', async (req, res) => {
     const contatos = await buscarTodosContatos();
